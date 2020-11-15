@@ -13,21 +13,20 @@ rndColorButton.addEventListener("click", randomColor);
 let blackColorButton = document.querySelector("#blackColor");
 blackColorButton.addEventListener("click", blackColor);
 
+let grayscalesColorButton = document.querySelector("#grayscales");
+grayscalesColorButton.addEventListener("click", grayscales);
+
 setInitial();
 let containerArray = Array.from(document.querySelectorAll(".single-block"));
-
-//adding the class default_hover to each element of of the container
-containerArray.forEach((cont) => {
-  cont.addEventListener("mouseenter", () => {
-    cont.classList.add("default_hover");
-  });
-});
+//set default black
+blackColor();
 
 //RESET
 function reset() {
   containerArray.forEach((cont) => {
-    cont.style.backgroundColor = "";
     cont.setAttribute("class", "single-block");
+    cont.style.backgroundColor = "";
+    cont.style.opacity = "";
   });
 }
 
@@ -55,39 +54,68 @@ function resize() {
   }
 
   containerArray = Array.from(document.querySelectorAll(".single-block"));
-  containerArray.forEach((cont) => {
-    cont.addEventListener("mouseenter", () => {
-      cont.classList.add("default_hover");
-    });
-  });
-  // console.log(containerArray);
+  blackColor();
 }
 
 /// DIFFERENT COLORS
 
+function colorSetter(color) {
+  switch (true) {
+    case color === "black":
+      containerArray.forEach((cont) => {
+        cont.addEventListener("mouseenter", () => {
+          cont.style.backgroundColor = "rgba(0, 0, 0, 1)";
+        });
+      });
+      break;
+    case color === "random":
+      containerArray.forEach((cont) => {
+        cont.addEventListener("mouseenter", () => {
+          const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+          cont.style.backgroundColor = `#${randomColor}`;
+        });
+      });
+      break;
+    // case color === "grayscales":
+    //   console.log("Im in");
+    //   containerArray.forEach((cont) => {
+    //     cont.addEventListener("mouseenter", () => {
+    //       cont.style.opacity = "0.1";
+    //     });
+    //   });
+    //   break;
+  }
+}
+
 // RANDOM
 function randomColor() {
   reset();
-  containerArray.forEach((cont) => {
-    cont.addEventListener("mouseenter", () => {
-      const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-      cont.style.backgroundColor = `#${randomColor}`;
-    });
-  });
+  colorSetter("random");
 }
 
 // BLACK
 function blackColor() {
   reset();
-  containerArray.forEach((cont) => {
-    cont.addEventListener("mouseenter", () => {
-      cont.style.backgroundColor = "";
-    });
-  });
+  colorSetter("black");
 }
 
-// e.classList.add("default_hover");
+// GRAYSCALES;
+// function grayscales() {
+//   reset();
+//   // colorSetter("grayscales");
+//   // rgba(0,0,0,0.1) -> light gray
 
-// grid.addEventListener('mouseenter', func) { (when mouse hovers over item
-//
-//}
+//   containerArray.forEach((cont) => {
+//     cont.addEventListener("mouseenter", () => {
+//       let currentColor = cont.style.backgroundColor;
+//       if (currentColor !== "rgba(0, 0, 0, 0.1)") {
+//         cont.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
+//       }
+
+//       console.log(currentColor);
+//       let currentOpacity = currentColor.slice(16, -1);
+
+//       // else if (currentColor === "rgba(0,0,0,0.1)") {
+//       // }
+//     });
+//   });
