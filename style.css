@@ -83,9 +83,32 @@ table {
 #general {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 23rem;
   margin-top: 5rem;
+  font-size: 2rem;
+}
+
+#general button {
+  margin-bottom: 3rem;
+  width: 10rem;
+  align-self: left;
+}
+
+#colors {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5rem;
+  justify-content: center;
+  width: auto;
+  margin-top: 5rem;
+  font-size: 1.1rem;
+}
+
+#colors button {
+  margin-top: 3rem;
+  width: 10rem;
+  align-self: right;
 }
 
 #sketch {

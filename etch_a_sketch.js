@@ -16,6 +16,9 @@ blackColorButton.addEventListener("click", blackColor);
 let grayscalesColorButton = document.querySelector("#grayscales");
 grayscalesColorButton.addEventListener("click", grayscales);
 
+let blackColoring;
+let randomColoring;
+
 setInitial();
 let containerArray = Array.from(document.querySelectorAll(".single-block"));
 //set default black
@@ -25,8 +28,10 @@ blackColor();
 function reset() {
   containerArray.forEach((cont) => {
     cont.setAttribute("class", "single-block");
-    cont.style.backgroundColor = "";
+    cont.style.backgroundColor = "white";
     cont.style.opacity = "";
+    cont.removeAttribute("datacolor");
+    cont.removeEventListener("mousemove", randomColoring);
   });
 }
 
@@ -63,27 +68,46 @@ function colorSetter(color) {
   switch (true) {
     case color === "black":
       containerArray.forEach((cont) => {
-        cont.addEventListener("mouseenter", () => {
-          cont.style.backgroundColor = "rgba(0, 0, 0, 1)";
-        });
+        cont.addEventListener(
+          "mouseenter",
+          (blackColoring = () => {
+            cont.style.backgroundColor = "rgba(0, 0, 0, 1)";
+          })
+        );
       });
       break;
     case color === "random":
       containerArray.forEach((cont) => {
-        cont.addEventListener("mouseenter", () => {
-          const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-          cont.style.backgroundColor = `#${randomColor}`;
-        });
+        cont.addEventListener(
+          "mouseenter",
+          (randomColoring = () => {
+            const randomColor = Math.floor(Math.random() * 16777215).toString(
+              16
+            );
+            cont.style.backgroundColor = `#${randomColor}`;
+          })
+        );
       });
       break;
-    // case color === "grayscales":
-    //   console.log("Im in");
-    //   containerArray.forEach((cont) => {
-    //     cont.addEventListener("mouseenter", () => {
-    //       cont.style.opacity = "0.1";
-    //     });
-    //   });
-    //   break;
+    case color === "grayscales":
+      containerArray.forEach((cont) => {
+        cont.removeEventListener("mouseenter", randomColoring);
+        cont.style.opacity = "0";
+        let att = document.createAttribute("datacolor");
+        att.value = 1;
+        cont.setAttributeNode(att);
+
+        cont.addEventListener("mouseenter", () => {
+          cont.style.backgroundColor = "black";
+          if (parseInt(cont.getAttribute("datacolor")) < 11) {
+            att.value++;
+            cont.setAttributeNode(att);
+            console.log(cont.style.opacity);
+            cont.style.opacity = "" + (parseFloat(cont.style.opacity) + 0.1);
+          }
+          console.log(parseInt(cont.getAttribute("datacolor")));
+        });
+      });
   }
 }
 
@@ -100,22 +124,7 @@ function blackColor() {
 }
 
 // GRAYSCALES;
-// function grayscales() {
-//   reset();
-//   // colorSetter("grayscales");
-//   // rgba(0,0,0,0.1) -> light gray
-
-//   containerArray.forEach((cont) => {
-//     cont.addEventListener("mouseenter", () => {
-//       let currentColor = cont.style.backgroundColor;
-//       if (currentColor !== "rgba(0, 0, 0, 0.1)") {
-//         cont.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
-//       }
-
-//       console.log(currentColor);
-//       let currentOpacity = currentColor.slice(16, -1);
-
-//       // else if (currentColor === "rgba(0,0,0,0.1)") {
-//       // }
-//     });
-//   });
+function grayscales() {
+  reset();
+  colorSetter("grayscales");
+}
