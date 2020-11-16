@@ -78,6 +78,7 @@ table {
 
 #main {
   display: flex;
+  justify-content: center;
 }
 
 #general {
